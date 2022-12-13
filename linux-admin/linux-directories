@@ -1,0 +1,106 @@
+LSB - (L)inux (S)tandard (B)ase
+- https://en.wikipedia.org/wiki/Linux_Standard_Base
+
+FHS - (F)ile (H)ierarchy (S)tandard
+- https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
+
+
+File types (ls -lha /dev)
+
+(-) File
+(d) Directory
+(l) Symbolic link
+(b) Block device, HD, pen drive
+(c) Caracter device, sending and receiving information (terminal, tty)
+
+
+Directories
+
+/ (Root directory - first Linux directory)
+
+/bin
+ - system binaries (ls, cd, vim), etc.
+
+/boot
+ - system initial files (grub, kernel), etc
+
+/dev
+ - system devices (HD, CPU), everything is a file in Linux (abstraction, interface)
+
+   sda   - SSD
+   sda1  - SSD 1st primary partition
+   sda2  - SSD 2st primary partition
+   sda5  - SSD 1st logic partition
+   sdb   - Second hard SSD
+   lp    - Print port
+   tty   - Terminal
+   ttyS1 - Serial port
+   psaux - Mouse
+
+/etc
+ - configuration/settings files (nginx, apache, samba)
+
+/home
+ - main directory for each user 
+
+/lib (lib32|lib64)
+ - System essential libraries
+   (.so) files are (compiled library files) "Shared Object" like Windows DDLs
+   (.ko) files are programs used by the Kernel, for example drivers for network, etc
+        /lib/modules/5.15.0-53-generic/kernel/drivers/net/ethernet/realtek
+
+/lost+found
+ - All the file systems that have Journal (way to recover files when the machine turn down for an energy outage)
+   will have this folder where the files are save in order to be able recover them.
+
+/media
+ - All the devices will be mounted under this directory (CD-ROM, penddrive), etc
+
+/mnt
+ - Temporary mounting point (ISO) for example
+
+/opt
+ - Main directory for all the softwares that are installed i.e (libre office, google chrome) etc
+
+/proc
+ - It's a virtual filesystem (this directory doesn't exist fisically) who is responsible to create it is the Kernel
+   and other process, you could see for example CPU data using (cat cpuinfo), dynamic information about the system
+   
+   When some process is running in the Linux it creates a directory inside /proc in order to create temporary files
+   that should be used for this process, (PID) is the process number, is the way to identify the running process
+
+/root
+ - It's the home directory for the root user, it is the unique user directory that lives outside of the home directory
+
+/run
+ - Dynamic data related to the system, who is the logged users, and so on, it's a temporary file, it is created dynamically
+   when the system is being initialyzed
+
+/sbin
+ - bynary files that only the super user can execute, for example, (adduser, deluser), etc
+
+/srv
+ - Server file, i.e (CVS, FTP, webserver HTML pages), etc
+
+/sys
+ - Files related to system information like, (firmware, kernel, devices, drivers), etc
+
+/tmp
+ - It is a temporary directory, all files inside this directory will be removed when the system is restarted
+   Applications can use this directory for ephemeral files.
+
+/usr (second Linux directory)
+ - It provides a similar (/) structure but for the users, not essential for the system itself
+ - /bin   - not essential binaries (user binaries)
+ - /sbin  - not essential root binaries
+ - /lib   - not essential libraries
+ - /share - documentation and all shareable data
+ - /src   - source code for any application you will compile or run, for example python scripts, shell scripts, etc
+ - /src/local - (third Linux Directory)
+   - All the essential local (specific) data that will not be shareable through network, i.e (kubctl)
+
+/var
+ - Variable data, i.e system logs (/var/logs), system backups (/var/backups), system cache (/var/cache), all the "apt"
+   downloaded packages will be inside the (cache/apt/archives), system metadata, docker volumes, kubernets (/var/lib),
+   etc
+

@@ -1,0 +1,75 @@
+Internal commands (built-commands)
+ - ls
+ - echo "test"
+ - alias ls='ls -lha'
+
+ To see if it is an internal commands you can run:
+  - which <command> -> (which ls)
+    - if this is under /bin/ it is an internal command
+  - man builtins
+  - type <command> -> type ls
+
+
+External commands
+
+ To see if it is an external commands you can run:
+ - which <command> -> (which ls)
+   - if this is under usr/local/bin/ it is an external command
+ - type <command> -> type ls
+
+
+ commands to handle directories
+
+ ls -lha (list files & directories)
+    -l (list)
+    -a (hidden files and directories)
+    -h (human readable)
+    -d (list directories only)
+    -t (list by last change date)
+    -r (reverse order)
+    -R (list recursively)
+    -B (list all files that aren't backups), in linux all files that ends with posfix ~ are considered backups
+       i.e (database-01-01-2023~)
+
+cd (change directory)
+   - cd ~  (go to user home)
+   - cd -  (go to the last directory)
+   - cd .  (current directory)
+   - cd .. (previous directory)
+
+pwd (show the absolute path of the current directory)
+
+mkdir - create new folders
+   -p (create inner directories - mkdir x/y/z)
+
+rmdir - remove empty folders
+   -p (remove inner empty directories - rmdir x/y/z)
+
+rm - remove files and directories
+   - rm -r (remove files and directories recursively)
+   - rm -rf (remove files and directories recursively without ask for confirmation for each directory)
+   - rm -rf * (remove all not hidden files recursively)
+   - rm -rf a* (remove all files that begins with "a" character)
+   - rm -- - (remove file with "-" name)
+   - rm -- ? (remove file with "?" name)
+
+cp - copy and paste files (cp /bin/ls /usr/local/bin)
+   - cp /bin/* /usr/local/bin (copy all files inside /bin/ to /usr/local/bin)
+   - cp -r /bin/* /usr/local/bin (copy all files and folders recursively from /bin/ to /usr/local/bin)
+   - cp -rf /bin/* /usr/local/bin (same as above but forcing it)
+   - cp -R /dev/ ~/home (copy all files and IO or other dispositives because "R" copy these kind of special files)
+
+mv - move files from one place to other or rename a file or directory from an old name to a new one
+   - mv /bin/ls /usr/local/bin (will move "ls" binary to /usr/local/bin)
+   - mv file-old-name file-new-name (will rename a file)
+   - mv /bin/* /usr/local/bin (move all files inside /bin/ to /usr/local/bin)
+   - mv -r /bin/* /usr/local/bin (move all files and folders recursively from /bin/ to /usr/local/bin)
+   - mv -rf /bin/* /usr/local/bin (same as above but forcing it)
+
+cat - show file content
+   -n (show line numbers)
+   -s (hidden double blank lines)
+   -b (show line numbers that are not empty)
+   -E (show $ as the end of line)
+
+tree - list directories in a tree mode (sudo apt install tree)

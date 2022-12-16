@@ -1,0 +1,32 @@
+* - wildcard that is evaluated to 0, 1 or many characters
+
+    ls a*  (will list all files that starts with "a")
+    ls *a  (will list all files that ends with "a")
+    ls a*r (will list all files that starts with "a" and ends with "r")
+
+? - wildcard that is evaluated to 1 character
+
+    ls m?  (will list any file that starts with "m" and have just 1 character after the "m")
+    ls m?? (Same as above but it will list any file that will have 2 characters after the "m")
+
+Compound both
+
+    ls a?t* (will return any file that starts with "a" and after 1 character have the "t" letter and after that it can
+             have none or many other characters)
+
+[] - wildcard that will consider a range of valid characters
+
+    ls m[a-c]  (will list any file that will start with "m" and ends with "a, b or c")
+    ls m[^a-c] (will list any file that will start with "m" and NOT ends with "a, b or c" because "^" means denial)
+
+{} - wildcard that will add "OR" operation option for each parameter you will pass in the list, it can show duplicated 
+     results because it will repeat the search for each parameter given in the list {param1, param2}
+
+    ls x{zd,ze,zm} (will list any file that stars with "x" and will have "zd OR ze OR zm" in the rest of the name)
+
+Compound all
+
+     ls w?[d-z]*{list,comp}* (will list any file that starts with "w" and after one character will have any character
+                              between "d and z", after that it can have 0 or many characters following the words
+                              "list OR comp" following with 0 or many characters.
+                              If you run it in the "/usr/bin" it will return "word-list-compress" binary file

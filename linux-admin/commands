@@ -1,0 +1,148 @@
+Commands
+
+1 - clear (will clean the terminal screen)
+
+2 - date (show or change the system datetime, "date -u" will show the UTC datetime, "date -s 08:43" will change time)
+
+3 - hwclock --systohc (will save the system date to the motherboard)
+
+4 - df -h (will show the free disk space for each partition we have in the system, "-h" parameter is to show it in a
+           human readable way, "-t" will show the type of file system of each partition)
+
+5 - ln (will create a link (like alias)  between file to file, directory to directory or a file to a directory)
+        ls -s /bin/ls ~/ls-link (will create a symbolic link of "ls" inside of user's home directory called "ls-link")
+        hard link without "-s" only be created inside the same fifesystem and from file to file
+
+6 - du -h (will show the size of each file and directory under the current directory in a human readable way)
+    du -hs (will sumarize, in other words, will sum the size of each file and will show this value instead of listing all) 
+
+7 - find (find files and directories)
+    find /bin/ -name ls (will find for files and directories inside /bin/ that its name is "ls")
+    find /bin/ -type d -name ls (type "d" will search directories only)
+    find /bin/ -type f -name ls (type "f" will search files only)
+    find /bin/ -type d -name 'ls*' (will find for everything that starts with "ls")
+    find /usr/ -maxdepth 4 -type d -name  mc (will find only directories with name "mc" considering two levels in the structure)
+    find /usr/ -mindepth 9 -maxdepth 10 -type d -name  mc (same as above adding mindepth starting at 9 level)
+    find /usr/ -ctime -1 (will find all files that were created last day)
+    find /usr/ -mtime -1 (will find all files that were modifield last day)
+    find /usr/ -atime -1 (will find all files that were accessed last day)
+    find /usr/ -ctime +1 (will find all files that were created more than one day ago)
+    find /usr/ -mtime +1 (will find all files that were modified more than one day ago)
+    find /usr/ -atime +1 (will find all files that were accessed more than one day ago)
+    find /home/ -user rafaelcassau
+    find /home/ -group rafaelcassau
+    find /home/ -size +1000k (will find all files that were bigger than 1000k)
+    find /home/ -size -1000k (will find all files that were smaller than 1000k)
+    find /dev/ -type b (will find for all "block" devices like hard disks)
+    find /dev/ -type p (will find for all "pipes" devices)
+    find /dev/ -type c (will find for all "characteres" devices)
+    find /dev/ -type s (will find for all "socket" devices)
+    find /dev/ -type l (will find for all "symbolic links" devices)
+
+8 - free (will show the free and used system memory)
+    free --mibi (will show it in megabytes 1024k)
+    free --gibi (will show it in gigabytes 1024mb)
+
+9 - grep (will find for a pattern in a given input)
+    grep 'root' /etc/passwd (will find all the 'root' lines inside the /etc/passwd file)
+    grep -v 'root' /etc/passwd (will find all the lines except the ones that contains "root")
+    grep -i 'ROOT' /etc/passwd (will find all the lines 'ROOT' using ignore case)
+    grep -f input-file /etc/passwd (will use "input-file" content as parameter to the search)
+    grep -E '^www-data.*nologin$' /etc/passwd (will find using regular expression)
+    grep -F '.*' /etc/passwd' (will find by special characters)
+    grep -r 'root' /etc/ (will find the 'root' recursively under all directories and files inside /etc/)
+    grep -rl 'root' /etc/ (will show only the filenames where the 'root' was found)
+    grep -n 'root' /etc/passwd (will show the line number where the 'root' was found)
+
+10 - head (will show the first 10 lines of a file, you could use "-n" to change the amount of lines to be shown)
+
+11 - nl (will enumerate the number of lines of a given file)
+
+12 - more (will open a file using a page mechanism)
+
+13 - less (it's an improviment of "more" because it's possible to scroll up and scroll down, you can do a search 
+           using /<expression>)
+
+14 - sort (will sort the lines of a given file)
+     sort -r /etc/passwd (will revert the asc ordem)
+     sort -n /etc/passwd (will treat numeric as numeric instead of alphanumeric in the ordering process)
+     sort -c /etc/passwd (will check if the list is ordered or not)
+     sort -t ":" -k 1 /etc/passwd (will use ":" as delimiter instead of space and will use the second column to ordering it)
+
+15 - tail (will show the last 10 lines of a file)
+     tail -n 20 /etc/passwd (will change the number of last lines to be shown)
+     tail -f /some/log.txt (will be watching the file, when a new line will be added it will appear in the at the end of the file, it
+              is very useful to monitoring the live log of a web application) 
+
+16 - time (will measure how long a given command spend to be run)
+     time find / -name rafaelcassau
+
+17 - touch (can create a new file or changing the last modification date)
+     touch new-file
+     touch /etc/passwd
+
+18 - uptime (will show how long the system is turned on since the last boot)
+
+19 - dmesg (will show buffered kernel messages)
+     dmesg -c (will show the messages and will clean the buffer)
+     dmesg -x (will show classify the type of log message, info, warning and so on)
+     dmesg -w (will watch the end of the file, it is similar to "tail -f")
+
+20 - echo (will print a message in the screen)
+
+21 - su (leverage the non privilegied user to a previlegied one "root")
+     su (root user password, to use the super user privilege you should know the "root" password)
+     sudo (different from de "su" (root) when you call "sudo" you don't need the "root" password, you just need the 
+           current user password instead, it happens when you don't have a "su" user, for example in Ubuntu,
+           in the debian you can create or skip the "su" user, if you create you should use "su" if you prefer to skip
+           you should call "sudo" to invoke the root previlege, when you call sudo you just have 2 minutes of super user
+           previlege, when you call "su" you will be logged as super user as long as you want.
+           To be able to log as "su" in ubuntu for example you should run "sudo su" and type you own password.
+           Note that, for audit proposal is much better to have a super user instead of skip this step)
+    sudo (all user that belongs to "sudo" group will be able to scale the root previelige normaly)
+    sudo su (will create a new shell session and you can be logged as "root" as long as you can)
+    su - (will drop all current environment variables and create new ones for super user)
+    su - rafaelcassau -s /bin/bash (will login with "rafaelcassau" user using "bash" shell)
+    sudo su - www-data (will not able to connect because this user don't have a shell login "nologin")
+    sudo su - www-data -s /bin/bash (now it's possible to connect because "-s" enable a option to change the defaul shell
+                                     from "nologin" to "/bin/bash" this way you can investigate if everything is right with
+                                     the permissions of this user in case you are using this directory to host a web 
+                                     application)
+    adduser rafaelcassau sudo (will add the user "rafaelcassau" to the "sudo" group so he can call "sudo" command as act
+                               as a superuser, he also can call "sudo su" command)
+    deluser rafaelcassau sudo (will remove the user "rafaelcassau" from the "sudo" group, so after that we won't scale 
+                               "root" previlegies anymore)
+
+22 - sync (will allow save the kernel buffer in the disk, this actually happens automaticaly but if you need to force it
+           you can do it calling the "sync" command)
+
+23 - uname (will return the OS name)
+     uname -a (will return more useful information, kernel type, and so on)
+
+24 - reboot (will restart the system, it will persist the data for all the other programs, will finish them using the
+             correct way)
+     reboot -f (will force rebooting the system)
+
+25 - echo b >/proc/sysrq-trigger (when you can't run any binary to force the system restart you can talk directly to the
+                                  kernel, when you call it the system will reboot, it's dangerous because don't guarantee
+                                  the filesystem integrity)
+
+26 - halt (will shutdown the system)
+
+27 - echo o >/proc/sysrq-trigger (this tells to the kernel shutdown your machine directly, it's dangerous because it can't
+                                  guarantee the filesystem integrity)
+
+28 - shutdown -h 09:40 (will schedule the shutdown at 09:40)
+     shutdown -c (will cancel the shutdown)
+     shutdown -h +10 (will shutdown the system in the next 10 minutes)
+
+29 - wc (will count the number of lines, number of bytes and number of words)
+     wc -l (will show only the number of lines)
+     wc -w (will show only the number of words)
+     wc -c (will show only the number of bytes "characters" + broken lines, etc)
+
+30 - seq (will print a list of numbers sequentially)
+     seq 10 (will print from 1 to 10)
+     seq 2 10 (will print from 2 to 10)
+     seq 2 2 10 (will print from 2 to 10 incrementing using 2 instead of 1)
+

@@ -1,0 +1,64 @@
+1 - PATH (this is one of the most important environment variables, here is the place where the system will use to find any
+          kind of binary or executable scripts that should be run for your user. Each user have their own PATH that is
+          mount dinamically by the system, it's recommended to not change the PATH.
+          Each directory will be delimited by ":"
+          The system will find from left to the right direction, if you have 2 binaries with the same name in two
+          different PATHS the first one found will be executed)
+      echo $PATH (will print the PATHS for your user)
+      PATH=$PATH:/home/bin/ (will add /home/bin/ at the end of PATH)
+      PATH=/home/bin/:$PATH (will add /home/bin/ at the begin of the PATH, it's more dangerous)
+
+2 - sleep 100 & (will run the sleep in background, this way you can continue using the terminal because the program
+                 will not run in foreground)
+
+3 - jobs (will list all the background programs, the list will show the job ID (background auto increment) and the PID)
+
+4 - fg <job ID> (will bring to the terminal a background program)
+
+5 - CTRL+Z (will pause the execution of a foreground application and will go back to the terminal
+
+6 - bg <job ID> (will swich a paused foreground program to a background)
+
+7 - CTRL+C (will quit/cancel a program running in foreground)
+
+8 - kill %<job ID? (will terminate a background job)
+    kill -15 <PID> (will close the program using all the best approaches)
+    kill -9 <PID> (will force quit of the program wihtout safety checks, it can be dangerous for a database process)
+    kill -1 <PID> (will force the process read all the configurations again, it will not kill the process)
+
+9 - ls -lha; echo "first command"; sleep 4; echo "third command"; sleep 3 (running many commands sequentially using comma
+                                                                           as delimiter)
+10 - ps (will show the current process list that requires login runing in this terminal)
+     ps -a (will show all the process runing in all terminals)
+     ps -a | grep vim (will show the PID of vim, PID is the process identification, you could use it to force the quit
+                      or use it as you want)
+     ps -x (will list all the process for all the users no matter if it is associated to a terminal or not)
+     ps -u (will list who is the user of these process)
+     ps -m (will list more detais about the memory using for all process)
+     ps -f (will show the process using a tree structure, this way you can see who is parent of who)
+     os -ew (will show the ENVVARS that are being used by each process)
+     ps -aux (will show the process list in a better way to understand it)     
+     ps -aux --sort=tty (--sort will ordering based in the given column)
+
+11 - pidof (given a program name it will return the program PID)
+     pidpf firefox
+
+12 - pstree (will show the process tree in a human readable way)
+     pstree -c (will show the entire structure including the parent processes)
+     pstree -h (will mark the parent process and the predecessors)
+     pstree -p (will show the PID for all the process)
+      
+13 - top (will show the process execution and will be refreshed each 2 seconds)
+     top -i (will remove any iddle or zombie process it is much better because the screen become more clean)
+     top -c (will show the entire command line for each process)
+
+14 - nice (will define the priority of a program execution, -20 is the highest priority, 19 is the lowest priority)
+     nice -n -20 sleep 200 &
+
+15 - renice (will change the execution priority of a given program)
+     renice -n 10 -p <PID>
+     renice -n 10 -u <username> (will change the priority for all process of this user)
+     renice -n 10 -g <groupname> (will change the priority for all process of this group)
+
+16 - vmstat (will show the memory, swap, io, system, cpu information)
+     vmstat 1 (will update the data once a second)

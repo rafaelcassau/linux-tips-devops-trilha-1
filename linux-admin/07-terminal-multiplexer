@@ -1,0 +1,11 @@
+sudo apt install screen
+sudo apt install tmux
+
+
+screen & tmux (Both are terminal multiplexer, both will allow to create multiple screens, split the screen in multiple
+               windows. Both are very useful when you need to run a heavy job in a remove machine like an AWS EC2 over
+               a SSH connection, if you run it and the connection is closed you will lose yor job, to avoid that you 
+               can start a new screen or tmux and run the job inside there, after that you can detach and close the
+               SSH connection, when you connect again you can attach again and see if the job is finished or not.
+               This is useful if you need to connect to the server from another host)
+

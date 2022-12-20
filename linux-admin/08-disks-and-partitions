@@ -80,3 +80,48 @@ cfdisk /dev/sdb
 11 - Run "mkfs.ext4 /dev/sdb4" to format the "/" partition
 12 - Run "mkswap /dev/sdb5" to format the swap partition
 
+
+Partition suggestion
+
+Hard Disk 1TB
+Debian / Ubuntu
+
+Desktop
+ - / - 20GB
+ - /usr - 15GB
+ - /var - 10GB
+ - /home - 700GB
+ - swap - same as RAM if RAM >= 4GB, in case of RAM < 4GB then use RAM * 2
+
+Simple schema
+
+ - / - 50GB
+ - /home - 930GB
+ - swap - same as RAM if RAM >= 4GB, in case of RAM < 4GB then use RAM * 2
+
+ Email server
+
+ - / 20 GB
+ - /var - 900GB (/var/mail)
+ - /home - 5GB
+ - swap - same as RAM if RAM >= 4GB, in case of RAM < 4GB then use RAM * 2
+
+ File server
+
+ - / - 20GB
+ - /home - 5GB
+ - /data - 900GB
+ - swap - same as RAM if RAM >= 4GB, in case of RAM < 4GB then use RAM * 2
+
+Web Server
+
+- / - 20GB
+- /home - 5GB
+- /var - 950GB (/var/log & /var/www)
+- swap - same as RAM if RAM >= 4GB, in case of RAM < 4GB then use RAM * 2
+
+
+Split the folders into partition have some advantages like define custom permissions by partitions it can increase
+the system security, another advantage is isolate possible problems, if /home corrupt it will not affect other
+partitions, if /home become full it will not use the / space avoiding the system won't being booted, etc.
+

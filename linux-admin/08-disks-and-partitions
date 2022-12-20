@@ -1,0 +1,82 @@
+1 - fdisk (it's used to management the MSDOS disks, list logical an phisical partitions, you can create new partitions,
+           you also can change the partitions type i.e from primary to swap)
+        fdisk -l (will list all disks partitions and details
+        fdisk -l /dev/sda (will list all partitions under the /dev/sda)
+        fdisk /dev/sdb (will enter inside the /dev/sdb disk)
+            p (will print disk details
+            m (will print the menu [help])
+            n (will create a new partition)
+            t (will change a partition type)
+            w (will persist all changes you've made)
+            quit (will close the fdisk program)
+
+2 - mkfs.ext3 /dev/sdv1 (will format the partition to be used using "ext4")
+
+3 - mkswap /dev/sdb2 (will format the swap partition to be used)
+
+4 - wipefs -a /dev/sdb (will erase all the partitions made in /dev/sdb disk)
+
+5 - gdisk (it's another disk management tool, but for GPT type, it's more resilient because it have backups and so on)
+      gdisk /dev/sdb (will enter inside /dev/sdb disk)
+        ? (will show a help menu)
+        o (will create a new empty GPT partition table)
+        l (list known partition types)
+        i (show detailed information on a partition)
+        n (will create a new partition)
+        w (will persist all changes you've made)
+
+6 - parted (it's another disk management tool, it can be used in the iteractive mode using shell, it can be used in 
+            GUI mode (grafic interface) and it can be used in a non iteractive way, you can create some kind of 
+            automation because you can run commands in a non iteractive way.
+            Will can manage MSDOS and GPT partitions)
+      parted -l (will list all the hard disk types and partitions)
+      parted /dev/sdb (will enter into /dev/sdb disk)
+        print (will print all the partitions you have in this hard disk)
+        help (will show a help menu)
+        mklabel msdos (will create a MSDOS partition table)
+        mkpart (will create a new partition)
+        set <partition-number> boot on (will set the given partition number as bootable)
+        rm <partition-number> (will remove the given partition number)
+
+7 - cfdisk (it's another disk management tool, it's also iteractive using it you'll be able to manage MSDOS and 
+            UEFI(GPT) and others.
+            It's the most USER FRIENDLY way to manage your disks and partitions)
+
+BIOS x UEFI
+
+Basically BIOS was the program developed using assemby to turn on simple devices like the keyboard and video card,
+using these devices you are able to change some simple configurations, the BIOS also have the POST program, the POST
+is responsible to run a test in order to ensure that all required devices are working properly.
+The other main responsible is to find out the MBR partition to start the machine boot.
+The other devices were started by the OS instead the BIOS.
+BIOS is out to date
+
+UEFI is the replacement for the BIOS, you can boot huge hard disks > 2TB, you also can have another devices like mouse
+network adapter and so on working before the OS being booted, it is written in C++ and it can recognize and test all
+devices before the OS is being booted, it's avaible since 2011.
+Prefer to use UEFI instead BIOS, you can't swich from BIOS to UEFI without formating the OS again because the boot
+strategy is different between both.
+
+UEFI x EFI
+
+The unique diference is that UEFI is able to start from MBR partition while EFI must have an EFI partition to be booted
+
+Creating EFI partition schema
+
+cfdisk /dev/sdb
+
+1 - Create a new compatibity partition to install the GRUB, 1MB is enough, change the type for (BIOS boot)
+2 - Create a new partition of 512MB, change the type for (EFI System)
+    EFI System will be located in the /boot/efi (this is a vFAT (windows type))
+    All the required files will be load like diagnostic programs, GRUB or even the kernel, the boot will begin from here
+3 - Create the Linux boot partition of 512MB (Linux filesystem)
+4 - Create the root partition of 500GB (Linux filesystem)
+5 - Create the swap partition of 1GB (Linux swap)
+6 - Select the "Write" option
+7 - Run "fdisk -l /dev/sdb" to see details about the configuration
+8 - Install "dosfstools" running "apt install dosfstools"
+9 - Run "mkfs.vfat /dev/sdb2" to format the EFI partition
+10 - Run "mkfs.ext3 /dev/sdb3" to format the Linux boot partition
+11 - Run "mkfs.ext4 /dev/sdb4" to format the "/" partition
+12 - Run "mkswap /dev/sdb5" to format the swap partition
+

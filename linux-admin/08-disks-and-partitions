@@ -124,4 +124,3 @@ Web Server
 Split the folders into partition have some advantages like define custom permissions by partitions it can increase
 the system security, another advantage is isolate possible problems, if /home corrupt it will not affect other
 partitions, if /home become full it will not use the / space avoiding the system won't being booted, etc.
-

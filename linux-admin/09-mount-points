@@ -1,0 +1,56 @@
+1 - mount (Will list all mounted devices in the filesystem, mount is basically turn the partition accessible to be
+          used latter on)
+    mount <destination/device> <any-folder-to-be-used-as-access-point-to-the-device> (mount /dev/sdb1 /mnt)
+    mount -o remount <directory>
+    mount -o remount,rw <directory>
+    mount -o remount,ro <directory>
+
+2 umount (Will umount a mounted a device in the filesystem)
+    umount <directory> (This directory should be mounted in the linux filesystem previously)
+
+3 - /etc/fstap (Is the file wher you can define mount points to be executed in the boot time)
+      <file system>
+        /dev/sdb5 OR any other block device you want
+      <mount point>
+        /var OR /home OR any other of your choice
+      <type>
+        ext4
+      <options>
+        defaults
+        noatime - (will not write accessed time for files it will reduce significantly the IO mainly in system that have
+                   a lot of changes like an email server or even an FTP server_
+        nodiratime - (will not write accessed time for directories, same as above)
+        norelatime - (The same for files but for inodes)
+        noexec - (will remove permition for execute anything inside this mount point, it will be removed even for root
+                  user, it's useful for security reasons)
+        nosuid - (
+        nodev - (Will block any device creation)
+      <dump> (will allow to run backups and save it in dumb files 0 for not and 1 for yes)
+        0
+      <pass> (will check in reboot if the filesystem should is working properly, I mean if it is not corrupted
+              0 for not and 1 for yes)
+        0
+
+4 - mklost+found (will create the "lost+found" directory for a new directory that was mounted)
+
+5 - lsof ([apt install lsof] will show all opened files in the system)
+    lsof -t <directory> (will list all opened files inside this directory)
+ 
+ Mounting a new /var folder with a new hard disk listed as sdb1
+
+ 1 - Run "df -hT" to show all partitions and storage data, "sdb1" should not be listed yet"
+ 2 - Run "fdisk -l /dev/sdb" will shoul the "sdb1" partition
+ 3 - Run "mkfs.ext4 /dev/sdb1" to format this partition
+ 4 - Run "mkdir /tmp/mount_var" to create a temporary folder to be used as an access point to the "/dev/sdb1"
+ 5 - Run "mount /dev/sdb1 /tmp/mount_var" to mount /dev/sdb1/ in /tmpo/mount_var, it could be /mnt for example
+ 6 - Run "df - hT" and ensure the /dev/sdb1 was mounted
+ 7 - Run "cp -a /var/* /tmp/mount_var" to copy all /var files with their attributes to the /dev/sdb1, it will use 
+         tmp/mount_var as an access point but the files will be fisilly in the /dev/sdb1 not in /tmp/mount_var
+ 8 - Run "ls /tmp/mount_var" and ensure all the files are there except the "lost+found" directory
+ 9 - Run "mklost+found" to create this directory
+ 10 - Run "sudo vim /etc/fstab" to edit fstap file
+ 11 - Add "/dev/sdb1 /var ext4 defaults 0 0" in their expected columns, save and close the file
+ 12 - Run "rm -rf /var/*" 
+ 13 - Run "reboot" to restart the system
+ 14 - Run "df -hT" and ensure the /dev/sdb1 was mounted in /var
+ 15 - Run "ls -lha /var" amd emsure all the files are there, but now it is in another hard disk partition

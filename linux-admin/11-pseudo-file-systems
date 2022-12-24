@@ -1,0 +1,53 @@
+/proc and /sys follows the Unix approach, each hardware calls are associated to files.
+
+
+1 - /proc
+    It's the default pseudo filesystem in all linux flavors
+    It's possible to see the status for each process and devices
+    We can see how the Linux kernel is dealing with the hardware and the process execution
+    Previously only "/proc" was used for this proposal but it began to became to big and 
+        the "/sys" became to be used as well
+    /proc is responsible for basic hardware, interruptions and process
+        /proc/1 (Is the process 1 folder)
+            cat cmdline (show cmdline executed to start this PID)
+            cat environ (show the evironment variables used when this PID was executed)
+            cat status (show process execution status)
+            cat io (show the input and output used ports for devices)
+
+        cd acpi (energy, interruptions and disk management folder)
+        cat cpuinfo (show CPU data)
+        cat interrupts (show the hardware and the system iterarions, called "interruptions)
+        cat devices (show the system devices, same as /dev)
+        cat dma (show memory access settings)
+        cat filesystems (show all mounted and supported by the Kernel they can be virtual or fhysical)
+        cat kcore (represents the memory being used by the system, be careful it can show passwords and anything
+                   else loaded in memory, it is used in forense analisys)
+        cat loadavg (contain execution loaded data, to see this data use "w")
+        cat meminfo (show memory usage in a detailed way)
+        cat misc (other system modules data)
+        cat modules (show the loaded system modules "drivers")
+        cat mounts (show the system mount points)
+        cat uptime (show how long the machine is turned on)
+        cd fs (data from the running filesystems)
+        cd sys (data related to the system execution)
+            cd sys/net/ipv4 (will show the ipv4 configuration files)
+
+2 - /sys
+    System devices, like the sessions that are being running by the Kernel
+    Disk scan, HBA (Hos Bus Adaptor), block devices, energy saving systems and so on
+    /bus (show the system bus like PCI, USB and so on)
+    /block (block devices like "sda, sdb, loop1, loop2", etc)
+        cat sda/power/runtime_status (show the runtime status for this hard disk, you can change configurations)
+        cat sda/power/async (show if the data have being saved sync or async)
+        cat loop0/removable (show 0 for not and 1 for yes, like pendrives)
+    /fs
+        cat ext4/features/encryption (show if criptography is supported)
+        cat ext4/features/batched_discard (show if this option is supported)
+    /
+
+
+3 - fstrim <directory> (will discard all unused blocks only works for SSDs, it's useful because when you create and delete
+                    a lot of files the blocks are not discarded, so this way you tell to the system these blocks are
+                    available)
+    fstrim -a (will run the command for all partitions that support discard operations)    
+ 

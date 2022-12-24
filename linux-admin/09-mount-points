@@ -25,6 +25,11 @@
                   user, it's useful for security reasons)
         nosuid - (
         nodev - (Will block any device creation)
+        sync - (will sabe imediately the data in the disk, the default behaviour is save it in memory and on each 5 
+                seconds persist it in the database, be careful because when you use this option you can reduce the
+                hard disk life and also reduce the system performance)
+        async - (default system mechanism of saving data in the disk, default seconds is 5)
+        commit=<number_in_seconds> - (will change the time frame of saving data in the disk when the mode is "async")
       <dump> (will allow to run backups and save it in dumb files 0 for not and 1 for yes)
         0
       <pass> (will check in reboot if the filesystem should is working properly, I mean if it is not corrupted
@@ -36,21 +41,37 @@
 5 - lsof ([apt install lsof] will show all opened files in the system)
     lsof -t <directory> (will list all opened files inside this directory)
  
- Mounting a new /var folder with a new hard disk listed as sdb1
+Mounting a new /var folder with a new hard disk listed as sdb1
 
- 1 - Run "df -hT" to show all partitions and storage data, "sdb1" should not be listed yet"
- 2 - Run "fdisk -l /dev/sdb" will shoul the "sdb1" partition
- 3 - Run "mkfs.ext4 /dev/sdb1" to format this partition
- 4 - Run "mkdir /tmp/mount_var" to create a temporary folder to be used as an access point to the "/dev/sdb1"
- 5 - Run "mount /dev/sdb1 /tmp/mount_var" to mount /dev/sdb1/ in /tmpo/mount_var, it could be /mnt for example
- 6 - Run "df - hT" and ensure the /dev/sdb1 was mounted
- 7 - Run "cp -a /var/* /tmp/mount_var" to copy all /var files with their attributes to the /dev/sdb1, it will use 
-         tmp/mount_var as an access point but the files will be fisilly in the /dev/sdb1 not in /tmp/mount_var
- 8 - Run "ls /tmp/mount_var" and ensure all the files are there except the "lost+found" directory
- 9 - Run "mklost+found" to create this directory
- 10 - Run "sudo vim /etc/fstab" to edit fstap file
- 11 - Add "/dev/sdb1 /var ext4 defaults 0 0" in their expected columns, save and close the file
- 12 - Run "rm -rf /var/*" 
- 13 - Run "reboot" to restart the system
- 14 - Run "df -hT" and ensure the /dev/sdb1 was mounted in /var
- 15 - Run "ls -lha /var" amd emsure all the files are there, but now it is in another hard disk partition
+1 - Run "df -hT" to show all partitions and storage data, "sdb1" should not be listed yet"
+2 - Run "fdisk -l /dev/sdb" will shoul the "sdb1" partition
+3 - Run "mkfs.ext4 /dev/sdb1" to format this partition
+4 - Run "mkdir /tmp/mount_var" to create a temporary folder to be used as an access point to the "/dev/sdb1"
+5 - Run "mount /dev/sdb1 /tmp/mount_var" to mount /dev/sdb1/ in /tmpo/mount_var, it could be /mnt for example
+6 - Run "df - hT" and ensure the /dev/sdb1 was mounted
+7 - Run "cp -a /var/* /tmp/mount_var" to copy all /var files with their attributes to the /dev/sdb1, it will use 
+        tmp/mount_var as an access point but the files will be fisilly in the /dev/sdb1 not in /tmp/mount_var
+8 - Run "ls /tmp/mount_var" and ensure all the files are there except the "lost+found" directory
+9 - Run "mklost+found" to create this directory
+10 - Run "sudo vim /etc/fstab" to edit fstap file
+11 - Add "/dev/sdb1 /var ext4 defaults 0 0" in their expected columns, save and close the file
+12 - Run "rm -rf /var/*" 
+13 - Run "reboot" to restart the system
+14 - Run "df -hT" and ensure the /dev/sdb1 was mounted in /var
+15 - Run "ls -lha /var" amd emsure all the files are there, but now it is in another hard disk partition
+
+One important point is that is better to mount a new device in "/etc/fstab" using the device UUID because you
+avoid the risk of changing the disk in the hardware port and if you do that the device will change, to ensure
+it will not happen you can use the UUID instead of device name.
+
+6 - dumpe2fs (will show all the attributes of a hard disk device for example "dumpe2fs /dev/sda1")
+
+7 - tune2fs (will change the hard disk device attributes like, label, reserved blocks size and so on)
+    tune2fs --help (to see how to use it)
+    tune2fs -O ^has_journal /dev/sdb3 (will remove the journal from this device)
+    tune2fs -O has_journal /dev/sdb3 (will add the journal to this device)
+
+8 - /etc/mke2fs.conf (It is the configuration file that will define the default attributes for partitions and hard disks
+                      devices) 
+    mkfs.ext4 -T news /dev/sdb3 (Will manualy define the "largefile" type to be used as attributes for /dev/sdb3)
+

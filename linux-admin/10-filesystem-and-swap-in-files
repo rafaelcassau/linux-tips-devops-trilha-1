@@ -1,0 +1,68 @@
+1 - truncate (will set a size of a given file, in case of the file become larger then the size set the exceeded data
+              will be lost, if the file will be less than the size then the remaining bytes will be filled with zeros,
+              This is very useful for hard disk virtualization.
+              Initially the file will not have the size because it use the "copy and writing" approach)
+    truncate -s 1G data/test.img (will create a file using a way "copy on writing")
+
+2 - /dev/loop (It's a block device that mount regular files as file system, like snap ubuntu)
+
+3 - /dev/zero (It's used to create a file with no data but with the required size "A file with all zero's written
+               on it")
+
+
+Mounting a file in the filesystem
+
+    mkdir data
+    truncate -s 1G data/test.img (will create a file using a way "copy on writing")
+    ls -lha /data (will list is as 1GB)
+    du -h /data (will show the actual file size)
+    mkfs.ext4 test.img (format it as ext4 type)
+    mount -o loop test.img /mnt (will mount "test.img" in "/mnt" to be accessible from there)
+    df -hT (will show "/dev/loop" device mounted in "/mnt")
+    cp -a /usr /mnt (loop devices won't allow write in a concurrent way)
+    ls -lha /data (will show the new size of the file
+    df -hT (will show "/dev/loop" device mounted in "/mnt")
+    umount /mnt (will umount the "test.img", it means this file will not be acessive anymore)
+
+
+This techinique is used in virtualization specifically for defining a hard disk limit size, it can also be used
+to mount a file as swap in case the swap disk space is over the file mounted as swap can be used
+
+
+
+4 - dd ("copy and convert", the better name would be "cc" but the linux compiler binary is "cc" because of that they
+        have chosen "dd" it's the next alphabet letter)
+    if (input file the be copied from)
+    of (destination file, if this file doesn't exists they will be created)
+    bs (block size to be read)
+    count (the number of times to read the block size)
+    dd if=/dev/zero of=test.img bs=1024 count=1024 (will create a 1MB file filled with zeros)
+
+5 - cat /proc/swaps (will show the virtual swaps file that will show all the swaps and the usage priority)
+
+6 - swapon (enable partitions and files to be used as swap)
+
+7 - swapoff (disable partitions and files to be used as swap)
+
+
+creating a swap file to be used as an extension of the RAM memory (will work because of "dd")
+
+    dd if=/dev/zero of=swap_file bs=1024 count=1024000 (will create a 1GB size file)
+    mkswap swap_file (will format the partition or file to be used as swap)
+    chmod 0600 swap_file (will change the permission to a more restritive one)
+    sudo swapon swap_file (enabling partitions and files to be used as swap)
+    cat /proc/swaps (will show the system available swaps)
+    free (will show the free and usage memory and swap)
+    sudo swapoff swap_file (will disable "swap_file" to be used as swap)
+    free
+    sudo swapon -p -3 swap_file (will enable the swap_file setting the priority to -3, the higher priority swaps will
+                                 be used first)
+    cat /proc/swaps
+
+
+reducing swap usage
+
+cat /proc/sys/vm/swappiness (The default value of vm.swappiness is 60 and represents the percentage of the free memory 
+                             before activating swap)
+echo 1 > /proc/sys/vm/swappiness (will change it to 1, it will be used only in the last case, keep in mind that this 
+                                  change is temporary and will be lost after the system is restarted)

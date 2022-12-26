@@ -1,0 +1,82 @@
+1 - xfs (apt-get install xfsprogs)
+2 - btrfs (apt-get install btrfs-progs)
+3 - dosfs (apt-get install dosfstools)
+4 - reiserfs (apt-get install reiserfsprogs)
+5 - ext4
+
+
+Terminology
+  metadata
+    A data structure that is internal to the file system. It ensures that all of the on-disk data is properly organized
+    and accessible. Essentially, it is “data about the data.” Almost every file system has its own structure of 
+    metadata, which is one reason the file systems show different performance characteristics. It is extremely 
+    important to maintain metadata intact, because otherwise all data on the file system could become inaccessible. 
+  inode
+    A data structure on a file system that contains a variety of information about a file, including size, number of
+    links, pointers to the disk blocks where the file contents are actually stored, and date and time of creation,
+    modification, and access. 
+  journal
+    In the context of a file system, a journal is an on-disk structure containing a type of log in which the file 
+    system stores what it is about to change in the file system’s metadata. Journaling greatly reduces the recovery 
+    time of a file system because it has no need for the lengthy search process that checks the entire file system at 
+    system start-up. Instead, only the journal is replayed. 
+
+
+XFS
+  Originally intended as the file system for their IRIX OS, SGI started XFS development in the early 1990s. The idea 
+  behind XFS was to create a high-performance 64-bit journaling file system to meet extreme computing challenges. 
+  XFS is very good at manipulating large files and performs well on high-end hardware. XFS is the default file system 
+  for data partitions in SUSE Linux Enterprise Server.
+  A quick review of XFS’s key features explains why it might prove to be a strong competitor for other journaling 
+  file systems in high-end computing.
+  High scalability
+    XFS offers high scalability by using allocation groups
+    At the creation time of an XFS file system, the block device underlying the file system is divided into eight or 
+    more linear regions of equal size. Those are called allocation groups. Each allocation group manages its own inodes 
+    and free disk space. Practically, allocation groups can be seen as file systems in a file system. Because allocation 
+    groups are rather independent of each other, more than one of them can be addressed by the kernel simultaneously. 
+    This feature is the key to XFS’s great scalability. Naturally, the concept of independent allocation groups suits 
+    the needs of multiprocessor systems.
+  High performance
+    XFS offers high performance through efficient management of disk space
+    Free space and inodes are handled by B+ trees inside the allocation groups. The use of B+ trees greatly contributes 
+    to XFS’s performance and scalability. XFS uses delayed allocation, which handles allocation by breaking the process 
+    into two pieces. A pending transaction is stored in RAM and the appropriate amount of space is reserved. XFS still 
+    does not decide where exactly (in file system blocks) the data should be stored. This decision is delayed until the 
+    last possible moment. Some short-lived temporary data might never make its way to disk, because it is obsolete by 
+    the time XFS decides where actually to save it. In this way, XFS increases write performance and reduces file 
+    system fragmentation. Because delayed allocation results in less frequent write events than in other file systems, 
+    it is likely that data loss after a crash during a write is more severe. 
+  Preallocation to avoid file system fragmentation
+    Before writing the data to the file system, XFS reserves (preallocates) the free space needed for a file. Thus, 
+    file system fragmentation is greatly reduced. Performance is increased because the contents of a file are not 
+    distributed all over the file system. 
+
+
+Btrfs
+  Btrfs is a copy-on-write (COW) file system developed by Chris Mason. It is based on COW-friendly B-trees developed by 
+  Ohad Rodeh. Btrfs is a logging-style file system. Instead of journaling the block changes, it writes them in a new 
+  location, then links the change in. Until the last write, the new changes are not committed. 
+
+
+Dosfs
+  Image result for dosfs file system
+  File Allocation Table (FAT)
+  DOS uses the File Allocation Table (FAT) filesystem. This was originally FAT12 which supported up to 4078 clusters 
+  per drive. DOS 3.0 added support for FAT16 which used 16-bit allocation entries and supported up to 65518 clusters 
+  per drive.
+
+
+ReiserFS
+  Officially one of the key features of the 2.4 kernel release, ReiserFS has been available as a kernel patch for 
+  2.2.x SUSE kernels since version 6.4. ReiserFS was designed by Hans Reiser and the Namesys development team. 
+  It has proven itself to be a powerful alternative to Ext2. Its key assets are better disk space usage, better disk 
+  access performance, faster crash recovery, and reliability through data journaling. 
+
+
+Ext4
+  In 2006, Ext4 started as a fork from Ext3. It eliminates some storage limitations of Ext3 by supporting volumes with 
+  a size of up to 1 exbibyte, files with a size of up to 16 tebibytes and an unlimited number of subdirectories. 
+  It also introduces several performance enhancements such as delayed block allocation and a much faster file system 
+  checking routine. Ext4 is also more reliable by supporting journal checksums and by providing time stamps measured 
+  in nanoseconds. Ext4 is fully backward compatible to Ext2 and Ext3—both file systems can be mounted as Ext4. 

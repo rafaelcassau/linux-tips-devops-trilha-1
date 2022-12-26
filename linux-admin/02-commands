@@ -73,3 +73,9 @@ cat - show file content
    -E (show $ as the end of line)
 
 tree - list directories in a tree mode (sudo apt install tree)
+
+bc - It's the linux calculator to use it you can run (echo "3 * 2 / 6" | bc) or just use it in the iteractive way 
+     typing "bc" and "quit" for close the program
+
+reset - Will reset the terminal configuration, it is useful when you run something that can mess with the terminal
+        characters or anything else

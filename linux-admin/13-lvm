@@ -1,0 +1,39 @@
+LVM (Logical Volume Manager)
+  You can change dynamically the partition size
+  You can increase or decrease the partition size with machine on
+  Using LVM you can abstract the phisical devices using volume groups,
+  you can add more hard disk devices and just increase existing partitions
+  without moving files or rebooting the system
+
+Configuring new hard drive as LVM
+
+
+1 - apt-get install lvm2
+2 - wipefs -a /dev/sdb (new hard disk added)
+3 - cfdisk /dev/sdb (4GB HD)
+  3.1 - create a new partition of 1GB using Linux LVM (/dev/sdb1)
+  3.2 - create a new partition of 2GB using Linux LVM (dev/sdb2)
+  3.3 - 1GB free space without partition will remain ("lvextend" will use this free disk space)
+4 - partprobe /dev/sdb (will tell Kernel to read the partition table again)
+5 - pvcreate /dev/sdb1 (will create the phisical volume in /dev/sdb1)
+6 - pvdisplay (will show created volumes, you can run "pvs" to show summarized volumes)
+7 - vgcreate vg-linuxexpert /dev/sdb1 (will create a volume group for /dev/sdb1)
+8 - vgdisplay (will show the volumes group created, you can run "vgs" to show it summarized)
+9 - lvcreate -n linuxadmin -L 200M vg-linuxexpert (will create the logical volume of name "linuxadmin"
+                                                   with 200MB of size for the "vg-linuxexpert" volume group)
+10 - lvdisplay (will show the logical volumes created "/dev/<vg-name>/<vl-name>)
+11 - mkfs.ext4 /dev/vg-linuxexpert/linuxadmin (will format this logical volume using ext4)
+12 - mkdir /linuxadmin
+13 - mount /dev/vg-linuxexpert/linuxadmin /linuxadmin
+14 - df -hT
+15 - lvextend -L +200M /dev/vg-linuxexpert/linuxadmin (Will increase 200MB in this volume)
+16 - resize2fs /dev/vg-linuxexpert/linuxadmin (for ext2, ext3 and ext4 it will recalculate the size after 
+                                               the volume had been extended)
+17 - df - hT
+18 - vgextend vg-linuxexpert /dev/sdb2 (will extend the original volume group size of 1GB from /dev/sdb1 using the 
+                                        /dev/sdb2 adding 2GB more)
+19 - vgdisplay
+20 - lvextend -L +1G /dev/vg-linuxexpert/linuxadmin
+21 - resize2fs /dev/vg-linuxexpert/linuxadmin
+22 - df -hT
+23 - lsblk (will list the device structure using a tree structure)

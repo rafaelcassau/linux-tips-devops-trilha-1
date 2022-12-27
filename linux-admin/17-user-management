@@ -1,0 +1,93 @@
+1 - adduser
+  adduser --help
+  /etc/adduser.conf (change the default configurations, like home directory, etc)
+  UID (User Identification, root UID is always 0)
+  GID (Group Identification, root GID is always 0)
+  User x System User
+    User is a human
+    System User could be a user that manage the printer or even HTTP server)
+  Group - By default when a User is created a Group with the same name is also 
+          created and the User is added in this group
+          A User can be part of many groups
+
+2 - su - <other-user>
+  Will change the user from the new one "su - rafaelcassau2"
+  Will load all the environment variables and settings of this user
+
+3 - id <username>
+  Will show the UID, GID, etc for the given user
+
+4 - useradd
+  It will create a new user without adding the directories, wihout asking 
+  for extra informations like password, groups, etc.
+  You can provide all those information using the parameters but it is not
+  mandatory.
+  Prefer to use "adduser" instead of "useradd"
+
+5 - /etc/passwd
+  Everytime you create a new user the user data will be saved in the
+  "/etc/passwd"
+  In a real file the ":" is used as delimiter between columns
+  In the password column is added only a "x", in the past the user password
+  was added here using criptgraphy, but this file is open to any user because
+  of that the password was moved to another file called "/etc/shadow"
+
+  -----------------------------------------------------------------
+  |username|password(old)|UID|GID|name,adrress,etc|home |shell    |
+  -----------------------------------------------------------------
+  |root    |x            |0  |0  |root            |/root|/bin/bash|
+  -----------------------------------------------------------------
+
+  You can add directly on this file but it's not recommended, instead use 
+  "adduser" or "useradd"
+
+6 - /etc/shadow
+  Is the file where the user passwords are saved in a criptography way.
+  
+  --------------------------------------------------------------------------
+  |username|password(hash)|lastchanged|minimum|maximum|warn|inactive|expire|
+  --------------------------------------------------------------------------
+  |root    |!             |18789      |0      |99999  |7   |        |      |
+  --------------------------------------------------------------------------
+
+  Username : 
+    A valid account name, which exist on the system.
+  Password :
+    Your encrypted password is in hash format. The password should be minimum 15-20 
+    characters long including special characters, digits, lower case alphabetic and more. 
+    Usually password format is set to $id$salt$hashed, The $id is the algorithm used On 
+    GNU/Linux as follows:
+      $1$ is MD5
+      $2a$ is Blowfish
+      $2y$ is Blowfish
+      $5$ is SHA-256
+      $6$ is SHA-512
+    (*) Means no password can be used to access the account
+    (!) Means it is locked
+  Last password change (lastchanged) :
+    The date of the last password change, expressed as the number of days since 
+    Jan 1, 1970 (Unix time). The value 0 has a special meaning, which is that the user 
+    should change her password the next time she will log in the system. An empty field means 
+    that password aging features are disabled.
+  Minimum : 
+    The minimum number of days required between password changes i.e. the number of days 
+    left before the user is allowed to change her password again. An empty field and value 0 
+    mean that there are no minimum password age.
+  Maximum : 
+    The maximum number of days the password is valid, after that user is forced to change her 
+    password again.
+  Warn : 
+    The number of days before password is to expire that user is warned that his/her password 
+    must be changed
+  Inactive : 
+    The number of days after password expires that account is disabled.
+  Expire : 
+    The date of expiration of the account, expressed as the number of days since Jan 1, 1970.
+
+7 - deluser
+  Will remove an user
+  deluser --remove-home <username> (by default the "deluser" doesn't delete the home)
+
+8 - userdel
+  Will remove an user
+  userdel -r <username> (by default the "userdel" doesn't delete the home)

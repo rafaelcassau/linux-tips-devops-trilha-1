@@ -1,0 +1,35 @@
+ACPI
+    It's a pattern that allows a more efficient way to manage energy of devices and resources.
+    Allow a more efficient iteration way between CPU and other hardware devices.
+    The resources are:
+        1 - Saving energy
+        2 - Performance management
+        3 - Suspension management
+        4 - Turn off the machine the correct way using power button
+
+To use those features above you should add a package called "acpid"
+
+"apt-get install acpid"
+
+It's a daemon that control and monitor the ACPI for the machine
+
+The ACPI configuration in Debian flavors is in "/etc/acpi/"
+
+"cat /etc/acpi/events/powerbtn-acpi-support" (is the event that handle the correct machine
+                                              shutdown when the power button is pressed,
+                                              it points to a sh file described bellow)
+
+"cat /etc/acpi/powerbtn-acpi-support.sh" (Will check if there are policies that didn't
+                                          allow the system shutdown, in case of none of
+                                          this policies was found than it runs the 
+                                          shutdown)
+
+
+systemd
+
+    If the systemd daemon has been used instead of "acpid" you should change
+    "/etc/systemd/logind.conf" in order to change the power button behavior
+    changing "HandlePowerKey=poweoff" to "HandlePowerKey=ignore" will change
+    the correct shutdown for just turn off the energy.
+
+

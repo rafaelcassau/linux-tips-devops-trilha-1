@@ -1,0 +1,38 @@
+Firmwares
+
+    Are peaces of code that is not compatible with the Linux Kernel, it can come as "embedeed code directly in the 
+    board or even come externaly in the vendor website like binaries. They aren't free because they can have some
+    strategic secrets that vendors don't want to share.
+    This way to run this kind of hardware you should install the driver separately and when the Kernel boots it will
+    looking for these binaries in a directory and then the Kernel will load it.
+
+    To install this kind of vendor drivers in Debian you can follow these steps.
+
+    1 - ls /lib/firmware (it's the place where all firmwares are placed
+    2 - vi /etc/apt/sources.list (it's the place where the system find the sources where it will search for 
+                                  updates, programs, packages, libraries, etc, we should edit it in order
+                                  to add firmwares sources packages in the list in order to be found when
+                                  we try to install it)
+    3 - Find a line mostly like this one "deb http://deb/debian.org/debian/ bullseye main"
+    4 - Add at the end of this line the following packages "contrib non-free" and then save and close the file 
+    5 - apt-get update
+    6 - apt-cache search firmware-linux-nonfree (after adding these aditional libraries the non free firmware 
+                                                 packages are found)
+    6 - apt-get install firmware-linux-nonfree
+    7 - ls /lib/firmware (will show more packages than before)
+    8 - apt-cache search firmware (will list all the available firmware packages to be installed)
+    9 - apt-get install firmware-realtek firmware-samsung (will add those firmware drivers for these vendor's boards)
+    10 - reboot (necessary for Kernel to be able to find and load the new firmwares installed)
+
+
+Installing network firmeware without internet
+
+    1 - run "lspci" or "lsusb" or "ls or "lshw" (apt install lshw) to figure out what are the required firmwares 
+        should be installed
+    2 - access debian.org/distrib/packages and find "Search package directories"
+    3 - type "firmware" or "realtek" if the board is from realtek
+    4 - select the firmware package and chose the archicteture, i386 for example
+    5 - Download it and move it to a pendrive
+    6 - Insert the pendrive in the machine where the driver should be installed and mount it
+    7 - dpkg -i <package-name>.deb (to install the package)
+    8 - reboot

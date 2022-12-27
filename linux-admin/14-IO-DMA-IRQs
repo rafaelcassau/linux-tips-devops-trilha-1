@@ -1,0 +1,22 @@
+/proc/interrupts (shows the IRQs configuration)
+    cat /proc/interrupts | less
+
+/proc/ioports (shos the IO ports configuration)
+    cat /proc/ioports | less
+
+/proc/dma (shows the (D)irect (M)emory (A)ccess, it's too old, but in the past it was used directly without requesting
+           to the CPU doing that, today the default is "cascade")
+
+
+IO ports are the ports that the CPU will read and write in order to get and send data, to do that the IRQ 
+(Interrupt Request Line) happens, basically when a device want to send data to the CPU they should request an 
+interruption, based on the interruption and the port the data can be send and read by the CPU and other devices
+
+
+iqrtop - (You can also see the IRQs using "irqtop" command, to do so install "sudo apt install irqtop")
+
+lspci - (You can list all the PCI devices using "lspci")
+
+lsusb - (List all the USB devices)
+
+lshw - (Will list all the hardware devices of yout computer, you should install "sudo apt install lshw")

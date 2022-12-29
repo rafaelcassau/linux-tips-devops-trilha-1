@@ -1,0 +1,45 @@
+1 - groupadd
+  groupadd <group-name>
+
+2 - addgroup
+  addgroup <group-name>
+  addgroup --system <system-group-name>
+
+3 - /etc/group
+  List all groups
+  The delimiter is ":"
+
+  -----------------------------------
+  |group_name|password|GID|users    |
+  -----------------------------------
+  |root      |x       |0  |rcassau,x|
+  -----------------------------------
+
+  (x) - Means that the group password is in another file "/etc/gshadow"
+      usually groups don't have passwords
+
+4 - newgrp
+  newgrp - <existing-group>
+    Will add the current user in the existing group temporarely opening a new
+    session
+
+5 - /etc/gshadow
+  List all groups passwords, administrator, users that belongs to this group
+
+  ------------------------------------------------
+  |group_name|password|administrator|users       |
+  ------------------------------------------------
+  |docker    |!       |             |rafaelcassau|
+  ------------------------------------------------
+
+  (*) - Means no password can be used to access the account
+
+  (!) - Means it is locked
+
+6 - delgroup
+  Will remove the group
+  delgroup <group-name>
+
+7 - groupdel
+  Will remove the group
+  delgroup <group-name>

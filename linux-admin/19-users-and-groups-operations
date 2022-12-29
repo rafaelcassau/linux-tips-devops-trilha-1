@@ -1,0 +1,115 @@
+
+1 - passwd
+  (root) passwd <username>
+    If you are logged as root then any password policy will be required but
+    the system can tell some warnings as poor password patterns and so on
+    As root the current password won't be asked
+  
+  (user) passwd <username>
+    The new password should match the password policies like having at least
+    8 characters, it cannot be equal the username, should have numeric, alphanumeric
+    and special characters and so on
+    As normal user the current password will always be requested first
+  
+  passwd -l <username>
+    Will lock this account, it means that only the root user is able the login in
+    this account, neither the own user is able to login anymore
+  
+  passwd -u <username>
+    Will unlock a locked user's account.
+  
+  passwd -e <username>
+    Will expire the password of a given username, it means that the next time
+    this user will login he will be forced to set a new password.
+  
+  passwd -d <username>
+    Will delete the user's password, it means that anyone is able to login as the
+    given user without knowing the password because the password doesn't exist
+    anymore
+  
+  passwd -de <username>
+    Will delete the current user's password and expire it, it means that the next
+    time the given user will login the current password won't be required and the
+    user will be forced to define a new one.
+    It's useful when the user forgot his password because it will force to set a
+    new one without knowing the current one.
+
+  
+2 - gpasswd
+
+  gpasswd <groupname>
+    Will set a password for this group, it's useful along with the command "newgrp"
+    because to have access temporarely to the given group the user should type the 
+    group's password
+  
+  gpasswd -a <username> <groupname>
+    Will add the given username to the given group, different from "newgrp" this is
+    not temporary, once a username was added to a group this user will be part of 
+    the group forever.
+  
+  gpasswd -A <username> <groupname>
+    Will set the given user as the group administrator, note that this user won't
+    be part of the group but only the group administrator, a group administrator
+    have some extra previlegies like the root.
+  
+  gpasswd -d <username> <groupname>
+    Will remove the given user from the given group
+  
+  gpasswd -M <username> <groupname>
+    Will add the given user as administrator and as member of the given group
+
+
+3 - usermod
+  Will allow changing any extra information about a given user, like UID, GID
+  coments, home directory, default bash, login and so on
+  usermod 
+    -u <UID> 
+    -g <GID> 
+    -c "free text" 
+    -m -d <new-home-path> ("-m" will move the data of the current "/home" to the new one)
+    -s <new-shell-path> 
+    <username>
+  usermod -l <new-login-name> <current-username>
+
+
+4 - groupmod
+  Allow change some group's attributes like GID, name and password.
+  groupmod
+    -g <new-GID>
+    -n <new-name>
+    -p <new-password>
+
+
+5 - chfn
+  Will allow changing any personal information like, full name, phone number, etc.
+  chfn
+    -f <new-full-name>
+    -h <new-home-phone>
+    <username>
+  chfn <username>
+    will ask for the new information in an iteractive way
+
+
+6 - chsh
+  Will allow changing the default bash for the given user
+  chsh <username>
+    will ask for the new shell for this username in an iteractive way
+
+
+7 - lastlog
+  Reports the most recent login of all users or of a given user
+  "var/log/lastlog"
+  This is the file that "lastlog" looks for show the last login list
+
+
+8 - last
+  Show a listing of last logged in users
+
+
+9 - users
+  Will show all the users currenly logged in the system, you could have the same user
+  logged many times in different terminals
+
+
+10 - groups
+  Will show the groups of the current user belongs to

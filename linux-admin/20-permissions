@@ -1,0 +1,153 @@
+-rw-rw-r--
+  (-) File type
+  (rw-) Owner user permission for (r) read, (w) write and (-) missing execution permission
+  (rw-) Owner user's group permission for (r) read, (w) write and (-) missing execution permission
+  (r--) Others permission for (r) read, (-) missing write permission and (-) missing execution permission
+
+
+Main file types
+  (-) text files (common files)
+  (l) symbolic links
+  (b) block device like hard disk (/dev/sda1)
+  (c) character device like ports
+  (s) socket devices
+  (d) directories
+
+
+Symbolic permissions
+  (-) missing permission
+  (r) read permission
+  (w) write permission
+  (x) execution permission
+  (t) stick bit
+
+
+Octal permissions
+  (0) missing permission (-)
+  (4) read permission (r)
+  (2) write permission (w)
+  (1) execution permission (x)
+  (1) stick bit (t)
+  (s) SUID (4), the (s) in the group permission block
+                    (S) will invert the SGID, it means that group doesn't have the permission
+  (s) SGID (2), the (s) in the user permission block, 
+                    (S) will invert the SUID, it means that user doesn't have the permission
+
+
+Owners
+  (u) user
+  (g) group
+  (o) others
+  (a) all of above
+
+
+Common permisions representation
+--------------------------------------------------------
+|symbolic         | octal                | File type   |
+--------------------------------------------------------
+|rwxrwxr-x        | 7      7      5      |             |
+|(rwx)(rwx)(r-x)  | (4+2+1)(4+2+1)(4+0+1)| directories |
+--------------------------------------------------------
+|rw-rw-r--        | 6      6      4      |             |
+|(rw-)(rw-)(r--)  | (4+2+0)(4+2+0)(4+0+0)| files       |
+--------------------------------------------------------
+
+Special permissions
+
+  Stick bit
+    It's a special permission, it only works for directories, when a given directory has this special permission
+    it means that only the owner of this directory is able to (w) write files inside there, it means only the owner can
+    write, change or delete files in a directory with (t) stick bit special permission, it means neither the root
+    account will be able to (w) write, change or remove files.
+  
+    To use the stick bit you should add the (1) number at the first digit when you use "chmod" command, for example
+      "chmod 644" (without stick bit)
+      "chmod 1644" (with stick bit)
+      "chmod 777" (without stick bit)
+      "chmod 1777" (with stick bit)
+  
+  SUID
+    It's a special permission that only applies for binary files, it means that for a given binary with SUID set for
+    root user, if another normal user runs that binary the system will run it as the root user not the normal user 
+    actually, no matter who is the user if the binary was set SUID as root, the system will undertand that who ran the 
+    binary was the root.
+
+    To use the SUID you should add the (4) number at the first digit when you use "chmod" command, for example
+      "chmod 644" (without SUID)
+      "chmod 4644" (with SUID)
+      "chmod 777" (without SUID)
+      "chmod 4777" (with SUID)
+
+  SGID
+    It's like the SUID but for groups, it means if a binary is set SGID for root group no matter what is the group of
+    the user that ran the bnary, the system will understand that the owner group that ran the binary was the root one.
+
+    To use the SGID you should add the (2) number at the first digit when you use "chmod" command, for example
+      "chmod 644" (without SGID)
+      "chmod 2644" (with SGID)
+      "chmod 777" (without SGID)
+      "chmod 2777" (with SGID)
+
+
+1 - chmod
+  Will change the permissions for (u) user, (g) group and (o) others, you can use (a) to change the permissions for
+  all (user, group and others) for files and directories
+    Symbolic operations
+      chmod u+x <file-or-directory> (Add execution permission (x) for the (u) user owner in the given file or directory)
+      chmod g-x <file-or-directory> (Remove execution permission (x) for the (g) group in the given file or directory)
+      chmod o+x <file-or-directory> (Add execution permission (x) for the (o) other users and groups that not belongs
+                                     to the current user)
+      chmod a=rw <file-or-directory> (Change permissions for (a) all users, groups and others to be able to (r) read and
+                                      (w) write the given file or directory)
+      chmod u=rw,g=rx,o=r <file-or-directory> (Change permissions for (u) user, now he will be able to (r) read and (w)
+                                               write in the file or directory, change permissions for the (g) group, now
+                                               the user's group will be able to (r) read and (x) execute the given file
+                                               or directory, change permissions for (o) others, now they will be able to
+                                               read the given file or directory)
+      chmod +x <file-or-directory> (Change permissions for all the user, group and all, it's like the (a), now everyone
+                                    can execute the given file or directory)
+
+    Octal operations
+      chmod 644 <file-or-directory> (Change permissions, now (u) user can (rw-) read and write in the given file or
+                                     directory, (g) user's group can (r--) read and (o) others can also read the given
+                                     file or directory)
+      chmod 777 <file-or-directory> (It's dangerous because the  users, groups and others (a) will be able to (rwx)
+                                     read, write and execute the given file or directory)
+      chmod 755 <file-or-directory> (Change permissions, (u) user can (rwx) read, write and execute, (g) users' group
+                                     can (r-x) read and execute, and the (o) others can also (r-x) read and execute the
+                                     given file or directory)
+
+2 - chown
+  Will change the (u) user owner, (g) group owner for files and directories
+    chown <username> <file-or-dictory> (Will change the user owner of the given file or directory)
+    chown <username>:<group> <file-or-directory> (Will change the user and the group owner of the given file or
+                                                  directory)
+    chown :<group> <file-or-directory> (Will change the group owner of the file or directory)
+
+
+3 - chgrp
+  Will change the (g) group owner for files and directories, it's the same of "chown" but only works for groups while
+  "chown" works for users and groups
+    chgrp <group> <file-or-directory> (Will change the group for the given file or directory)
+
+
+4 - umask
+  Set default permissions for files and directories (the default umask is 0002)
+  The default Unix permission without umask is:
+    Files: 0666
+    Directories: 0777
+
+  The "umask" will change these defaults to:
+    Files: (0666 - 0002) = 0664
+    Directories: (0777 - 0002) = 0775
+
+  When you type "umask" the default umask value will be shown
+  umask 0022
+    Will change the default umask value TEMPORARELY,
+    To define a new default umask you will need to add this peace of code "umask 0022" for example in the "~/.bashrc"
+    file, it means that everytime a new terminal will be open the default umask will be changed from "0002" to "0022"
+
+
+
+To be able to access a directory the user should have the (x) execution permission, without this permission the user
+can't access directories.

@@ -1,0 +1,106 @@
+sudo apt-get install vim
+
+VIM
+  VIM means (V)isual (I)nterface i(M)proved, its a classical file editor.
+
+
+Insert mode (i)
+  i   - change to the insert mode
+  I   - change to the insert mode at the begining of the current line
+  o   - change to the insert mode but at the begining in the line bellow he created
+  O   - change to the insert mode but at the begining in the line above he created
+  a   - change to the insert mode jumping a character to the right
+  A   - change to the insert mode jumping to the end of the current line
+  ESC - get back to command mode
+
+
+Command mode (ESC)
+  :w             - Save the file
+  :q             - Quit file
+  :qa            - Quit all openned files
+  :q!            - Force quit the file, it's used when you want to quit a modified file discarding the change
+  :wq            - Save and quit the file
+  :x             - Save and quit the file
+  :e <path>      - open the given file
+  :r <path>      - will get all the content of the given file and will paste it at the end of the current file
+  ZZ             - Save and quit the file
+  ZQ             - Force quit the file
+  :split <path>  - Will split the screen opening horizontally the given file path
+  :vsplit <path> - Will split the screen opening vertically the given file path
+  Ctrl+ww        - will move between splitted screen
+  :! <command>   - Allow to run an external command without quiting the VIM
+  !! <command>   - Will get the command output and paste it in the current openned file
+
+  yy             - copy the entire line
+  y3y            - copy the given number of lines, in this example it is 3
+  p              - paste from clipboard to the line bellow
+  P              - paste from clipboard to the line above
+  dd             - delete/cut the entire line
+  d3d            - delete/cut the given number of lines, in this example it is 3
+  D              - delete from the current character until the end of the line
+  x              - delete/cut one character
+  X              - delete/cut the character before the current one
+  r              - replace the current character for the new one
+  R              - open the replace mode, everything from the current character to the end of the line will be replaced 
+                   for text
+  u              - undo, everytime you press it the last ran command is undone
+  Ctrl+R         - redo, redo everything that were undone 
+  /<text>        - Search for the text (top/down)
+  n              - Jump to the next statement found (bellow)
+  N              - Jump to the previous statement found (above)
+  ?<text>        - Search for the text (botton/up)
+  gg             - Jump to the begining of the file
+  G              - Jump to the end of the file
+  H              - Jump to the begining of the current screen
+  M              - Jump to the middle of the current screen
+  L              - Jumo to the end of the current screen
+  w              - Jump word
+  dw             - delete/cut the entire word
+  cw             - delete/cut the entire word
+  yw             - copy the entire word
+  dG             - remove from current line until the end of the file
+  dgg            - remove from current line until the begining of the file
+  
+
+Visual mode (v)
+  v      - select a peace of text in a line
+  V      - select the entire line, you can select multiple entire lines
+  Ctrl+V - select a block of text, it can select a block of text in multple lines
+  
+
+Settings
+  :set number       - add line numbers
+  :set nonumber     - remove line numbers
+  :set hlsearch     - highlight all the found statements
+  :set nohlsearch   - remove highlight from the found statements
+  :set tabstop=2    - set tab with two spaces
+  :set spandtab     - convert tab in spaces, this way you can move the cursor in a tab space 
+  :set noerrorbells - stop error sound
+  :set novisualbell - stop visual errors
+  :set ignorecase   - ignorecase in search
+  :set bg=light     - change the color scheme
+  :set syntax=on    - enable file type syntax recognition 
+  :set syntax=off   - disable file type syntax recognition 
+
+
+Replace
+  :40s/word/new_word    - find and replace the first ocurrence from "word" to the "new_word" in the line 40
+  :40,50s/word/new_word - find and replace the first ocurrence from "word" to the "new_word" from line 40 to the line 50
+  :%s/word/new_word     - find and replace the first ocurrence from "word" to the "new_word" in the entire file
+  :%s/word/new_word/g   - find and replace the all the ocurrences from "word" to the "new_word" in the entire file
+
+
+.vimrc (example)
+
+set number
+set hlsearch
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+set novisualbel
+set noerrorbells
+set ignorecase
+set bg=light
+set textwidth=79
+syntax on

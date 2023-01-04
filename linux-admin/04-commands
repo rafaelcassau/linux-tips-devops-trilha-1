@@ -146,3 +146,10 @@ Commands
      seq 2 10 (will print from 2 to 10)
      seq 2 2 10 (will print from 2 to 10 incrementing using 2 instead of 1)
 
+31 - tee (read from standard input and write to standard output and files)
+     ls | tee output.txt (Will redirect the outcome of the "ls" command to the "output.txt" and also print the "ls"
+                          command in the standard output STDOUT)
+
+32 - man (Will show the manual documentation of a given command (binary))
+     man ls (Will show the manual documentarion of "ls" command)
+     man su (Will show the manual documentation if "su" command)

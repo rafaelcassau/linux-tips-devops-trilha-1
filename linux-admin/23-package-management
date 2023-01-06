@@ -1,0 +1,94 @@
+Debian distros
+
+  1 - dpkg
+    dpkg is the default debian flavor distros package management tool, with it you will be able to install, uninstall,
+    list and change configuration of installed packages.
+    To install a debian package using it you should have the package in the local machine.
+    An important point is that, it not resolve dependencies, it means, if a packageA dependes of a packageB you should
+    download and install packageB first and only after that you should install packageA
+  
+      dpkg -i <package_name>.deb (install the given .deb local package
+      dpkg -l (list all installed packages)
+      dpkg -l firefox (show data about the firefox instalation, if it not print nothing it means the firefox is not 
+                       installed)
+      dpkg -r firefox (remove the given program, in this example firefox, only remove the program, remaining data like
+                       docs, dependencies, cache can stay at the machine, if you run "dpkg -l firefox" the output will
+                       be the type of "rc" meaning it was removed but remaining configuration files is still there)
+      dpkg -P firefox (remove firefox and all configuration files, etc, "P" means "purge")
+      dpkg -L firefox (list all files owned by this program)
+      dpkg -S <path-of-a-file> (list who program is the owner of this file)
+      dpkg -I <package_name>.deb (show a bunch of information about the package)
+      dpkg -s firefox (show a bunch of information about the installed program)
+      dpkg -C (will looking for corrupted installed packages in the system)
+      dpkg --configure <program> (you can change the configuration of a given program)
+  
+  
+  2 - apt-get
+    apt-get is the default package manament system of the Debian flavor distros, in fact it will not install the packages
+    it will delegate it to "dpkg", but different from "dpkg" it will find the package over the remote package servers added
+    in "/etc/apt/sources.list" it will also resolve dependencies by itself and will download all of then, after that it 
+    calls "dpkg" to install it.
+  
+      apt-get install firefox
+      apt-get reinstall firefox
+      apt-get remove firefox
+      apt-get purge firefox
+      apt-get download firefox
+      apt-get autoremove (remove automatically all unused packages)
+      apt-get update (update the package list, it avoid to run search for the packages when you need to install it, this
+                      way you can keep the available package list always updated)
+      apt-get upgrade (will upgrade the whole system with patchs and software updates, etc)
+      apt-key add - (will add a key to ensure the package you are downloading is trustable, it means the package will not
+                     come from a malicious server, etc)
+      apt-get clean (will clean all the downloaded packages saved in "/var/cache/apt/archives/")
+      apt-cache show firefox (show the details of this program in the system)
+      apt-cache depends firefox (show which packages firefox depends on)
+  
+  
+  3 - /etc/apt/sources.list
+    it's the default sources.list file where the system will look for when you need to upgrade the system or when you
+    need to upgrade a package or install a new package.
+    When the package is not listed like "docker", "google-chrome" for example you should add the package in this file.
+    But it's recommended to create a new file in the "/etc/apt/sources.list.d/<package>.list" because this way you can
+    segregate which are the system default packages and which are your own packages.
+    Everytime you add a new repository in the sources.list you should run "apt-get update" in order to the system update
+    the package list.
+      deb [arch=amd64] https://apt.releases.hashicorp.com focal main
+        deb - (It's a debian binary packages)
+        deb-src - (It's the source code packages, you can download, compile and install by yourself)
+        [arch=amd64] - (It's the system archicteture that the packages are compatible with)
+        http://xxxx  - (It's the web server where the packages will be fetched and downloaded)
+        focal        - (It's the ubuntu version, yes the versions are named)
+        main         - (It's the package type, in this case it will download the main package, it could be "restricted"
+                        for example and so on)
+  
+  
+  4 - /etc/apt/sources.list.d/
+    It's the place to add your new dependencies like the listed bellow.
+    Don't forget to run a "apt-get update" after adding these new repositories.
+    Only after these steps you are able to install the package itself.  
+        docker.list
+        google-chrome.list
+  
+  
+  5 - /var/cache/apt/archives/
+    It's the place where the downloaded apt-get files are saved as a cache, it means if for any reason you need to install
+    thge package again the "apt-get install" will try to find the package in this directory first in order to avoid
+    downloading it again.
+
+
+RedHat distros
+
+  6 - rpm
+    It's like Debian "dpkg"
+    rpm --help (to list the options)
+  
+  
+  7 - yum
+    It's like Debian "apt-get"
+    yum --help (to list the options)
+  
+  
+  8 - dnf
+    It's like the "yum", it's the new package management system for RedHat Linux distros
+    dnf --help (to list the options)

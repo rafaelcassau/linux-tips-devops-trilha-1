@@ -1,0 +1,100 @@
+1 - PATH
+  Environment variable where all the directories that contain the system binaries are defined.
+
+
+2 - set
+  Show the all enviroment variables and all the shell scripts functions defined in the system
+
+
+3 - printenv
+  Print all system environment variables
+
+
+4 - env
+  Print all the system environment variables
+
+
+5 echo $PATH
+  Print the variable content, you should always put the $ as prefix
+
+
+6 - export VAR_NAME=VAR_VALUE
+  Create this new environment variable for the current shell session.
+  To be able to access this variable in multiple terminal windows you should define it in the "~/.bashrc" or 
+  "~/.profile" or similiar, after that you should reload the shell opening a new table or runing the command "bash"
+
+  When you need to create a variable with more than one word you should use double quotes "" i.e
+  export VAR_NAME=" var value"
+
+  When you need to put multiple values in a variable you should use ":" as delimiter i.e
+  export VAR_NAME=var_value_1:var_value_2
+  export LANG=pt_BR.UTF-8:en_US.UTF-8
+
+
+7 - unset VAR_NAME
+  Remove the given environment variable
+
+
+8 - alias
+  alias will create useful alias for your commands, it's useful to facilitate the day to day job when you need to use
+  the same command a lot of time or even when you need to run complex commands, for these cases you can create a simple
+  alias for that.
+    alias new_ls="ls -lha"
+
+    If you want to save the alias and use it forever you should add this command in "~/.bashrc" or in "~/.profile"
+
+    alias
+      List all aliases created in the system
+
+
+8 - unalias
+  unalias new_ls
+    Will remove the given alias, it will remove from the current terminal, to remove it definitively remove it from 
+    "~/.bashrc" or "~/.profile" in case you've persisted it there before.
+
+
+9 - ~/.bash_login
+  Hook that will execute any command that is placed in the "~/.bash_login" when you open the terminal 
+
+
+10 - ~/.bash_logout
+  Hook that will execute any command that is placed in the "~/.bash_logout" whwn you close the terminal
+
+
+11 - ~/.bash_history
+  Will save the last 1k commands you ran in your terminal in the "~/.bash_history" you can search for these commands
+  pressing "Ctrl+r" <command_name>
+
+
+12 - ~/.bashrc
+  You can set your own custom bash configuration putting the changes in this file "~/.bashrc"
+
+
+13 - source
+  this command will read the given file again
+  source ~/.bashrc
+    It is useful when you change the "~/.bashrc" file and want to reload it without closing and opening the terminal
+    again
+
+
+14 - /etc/profile
+  It's like "~/.bashrc" but every command you put here will be applied globally for all the linux users
+
+
+15 - /etc/profile.d/
+  Instead of changing the default "/etc/profile" you can add your own global ".sh" files into this directory and they
+  will be ran for all the system users. 
+
+
+16 - ~/.profile
+  It works exactly like the "~/.bashrc" and the scope is restrict only for the user instead global
+
+
+17 - PS1
+  It's the default variable that is responsible to print the user@machine in the terminal, it shows if the user is root
+  or if it is just a normal user, you can change the default behavior changing it in "~/.bashrc" file
+
+
+18 - /etc/environment
+  It's the correct file where you can define environment variables for all system user, you can add those variables in
+  another files like "~/.bashrc", "~/.profile" and it will work properly, but the correct place is here.

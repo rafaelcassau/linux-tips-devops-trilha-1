@@ -1,18 +1,23 @@
 1 - create 3 new ubuntu ec2 instances in AWS console
+
 2 - rename first machine to webserver-1
   2.1 - hostname webserver-1
   2.2 - echo "webserver-1" /etc/hostname
+
 3 - rename second machine to webserver-2
   3.1 - hostname webserver-2
   3.2 - echo "webserver-2" /etc/hostname
+
 4 - rename third machine to ansible-tower
   4.1 hostname ansible-tower
   4.2 echo "ansible-tower" /etc/hostname
   4.3 mkdir ~/ansible-tower
   4.4 touch ~/ansible-tower/hosts
   4.5 add private IP and hostname of the webserver-1 and webserver-2 in /etc/hosts
+
 5 - Add a inbound port in the security group allowing all traffic for any resource that belongs to this security group
   In the ansible tower machine call ping webserver-1 and webserver-2 and ensure both are working properly
+
 6 - In the ansible-tower machine follow this tutorial bellow to install ansible
   6.1 https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html#installing-ansible-on-ubuntu
 
